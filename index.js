@@ -94,12 +94,13 @@ app.get('/api/persons', (request, response) => {
 
 
   app.put('/api/persons/:id', (request, response, next) =>{
-     const body = request.body
-     const person = {
-       name: body.name,
-       number: body.number,
-     }
-     Person.findByIdAndUpdate(request.params.id, person, {new: true})
+     const {name, number} = request.body
+     
+     Person.findByIdAndUpdate(
+      request.params.id,
+       {name, number},
+       {new: true, runValidators:true, context: 'query'}
+      )
      .then(personUpdate =>{
         response.json(personUpdate)
      }).catch(error => next(error))
@@ -125,7 +126,10 @@ app.get('/api/persons', (request, response) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError'){
+      return response.status(400).send({error: error.mensage})
+
+    }
   
     next(error) // pasa los errores que no sean por cast error o sea por un ID de objeto no válido para Mongo
   }
