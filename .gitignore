@@ -2,8 +2,8 @@
 node_modules/
 
 # Env
-Entorno/
+Entorno.env
 
 # prueba
 
-mongo/
+mongo.js
