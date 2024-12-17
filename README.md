@@ -2,4 +2,6 @@
 
 https://backend-phonebook-6dyy.onrender.com
 
-ignore mongo.js
+the app run in port 3002
+
+http://localhost:3002/
